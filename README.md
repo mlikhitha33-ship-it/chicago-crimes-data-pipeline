@@ -11,7 +11,7 @@ Ingest raw Chicago crimes CSV data, transform it into clean analytics-ready Parq
 ```text
 raw_ingest → transform_crimes
 
-Tech Stack
+##Tech Stack
 
 AWS EC2 Ubuntu VM
 Docker
@@ -22,7 +22,7 @@ Python
 This project follows a common data engineering pattern:
 Landing Zone → Raw Zone → Clean Zone → Analytics-Ready Outputs
 
-Architecture
+## Architecture
 
 Chicago Crimes CSV
         ↓
@@ -36,14 +36,14 @@ Clean Parquet Zone
         ↓
 Airflow DAG Orchestration
 
-Current Airflow DAG:
+# Current Airflow DAG:
 raw_ingest → transform_crimes
 
-DataSet
+# DataSet
 Chicago Crimes dataset
 Source : https://data.cityofchicago.org/resource/ijzp-q8t2.csv
 
-Project Folder Structure
+# Project Folder Structure
 
 data-engineering-project/
 ├── dags/
