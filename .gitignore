@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+
+logs/
+plugins/
+config/
+.env
+
+data/landing/
+data/raw/
+data/clean/
+
+*.parquet
+*.csv
