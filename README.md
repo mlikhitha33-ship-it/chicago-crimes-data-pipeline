@@ -8,10 +8,9 @@ Ingest raw Chicago crimes CSV data, transform it into clean analytics-ready Parq
 
 ## Current Pipeline
 
-```text
 raw_ingest → transform_crimes
 
-##Tech Stack
+## Tech Stack
 
 AWS EC2 Ubuntu VM
 Docker
