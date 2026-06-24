@@ -100,6 +100,7 @@ curl -LfO 'https://airflow.apache.org/docs/apache-airflow/3.1.8/docker-compose.y
 mkdir -p dags logs plugins config jobs data
 ```
 # Create .env:
+- Docker uses this value so Airflow containers write files with the correct Linux permissions. Without it, files in logs/, dags/, or other mounted folders may be owned by the wrong user.
 ```
 echo "AIRFLOW_UID=$(id -u)" > .env
 ```
