@@ -13,14 +13,13 @@ This project builds a local data engineering pipeline using PySpark, Apache Airf
 raw_ingest → transform_crimes
 
 ## Tech Stack
-```
+
 - AWS EC2 Ubuntu VM
 - Docker
 - Apache Airflow
 - PySpark
 - Parquet
 - Python
-```
 
 
 ## Architecture
