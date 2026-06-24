@@ -115,9 +115,13 @@ mkdir -p dags logs plugins config jobs data
 echo "AIRFLOW_UID=$(id -u)" > .env
 ```
 
+# Create a Dockerfile:
+
 Airflow runs inside Docker containers. Because the pipeline uses PySpark, the Airflow image needs Java and PySpark installed inside the container.
 
-# Create a Dockerfile:
+```
+docker-compose.yaml
+```
 
 # Build and start Airflow:
 
