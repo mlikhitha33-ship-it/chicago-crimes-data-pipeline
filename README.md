@@ -150,7 +150,9 @@ curl -G 'https://data.cityofchicago.org/resource/ijzp-q8t2.csv' \
 ```
 
 
-# Verify
+# Verify it downloaded
+
+You should see a CSV file and column names like id, case_number,date , block etc.
 ```
 ls -lh data/landing/chicago_crimes/
 head -n 3 data/landing/chicago_crimes/chicago_crimes_2024.csv
@@ -195,7 +197,7 @@ Clean detail rows: 259170
 Daily summary rows: 7627
 ```
 
-# Pipeline Jobs
+# Create the first PySpark Job
 - Raw Ingestion Job
 - File:
 ```
@@ -218,7 +220,7 @@ jobs/raw_ingest.py
 data/raw/chicago_crimes
 
 ```
-# Transformation Job
+# Create the transformation Job
 ```
 jobs/transform_crimes.py
 ```
