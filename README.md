@@ -70,6 +70,7 @@ data-engineering-project/
 ```
 sudo apt update
 sudo apt install -y docker.io docker-compose-v2 git curl unzip openjdk-17-jdk python3-venv
+```
 
 # Start Docker
 ```
@@ -86,7 +87,9 @@ java -version
 ```
 
 # Test Docker
-
+```
+docker run hello-world
+```
 
 # 3. Create Project Folder
 
@@ -94,6 +97,7 @@ java -version
 mkdir -p ~/data-engineering-project
 cd ~/data-engineering-project
 ```
+Next , install and start Airflow using Docker Compose.
 
 # 4. Download Airflow Docker Compose File
 
