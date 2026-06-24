@@ -3,9 +3,10 @@
 This project builds a local data engineering pipeline using PySpark, Apache Airflow, Docker, and Parquet.
 
 ## Project Goal
-
-Ingest raw Chicago crimes CSV data, transform it into clean analytics-ready Parquet tables, and orchestrate the workflow using Apache Airflow.This project follows a common data engineering pattern:
-Landing Zone → Raw Zone → Clean Zone → Analytics-Ready Outputs
+```
+Ingest raw Chicago crimes CSV data, transform it into clean analytics-ready Parquet tables, and orchestrate the workflow using Apache Airflow.
+This project follows a common data engineering pattern: Landing Zone → Raw Zone → Clean Zone → Analytics-Ready Outputs
+```
 
 ## Current Pipeline
 
@@ -91,11 +92,13 @@ cd ~/data-engineering-project
 curl -LfO 'https://airflow.apache.org/docs/apache-airflow/3.1.8/docker-compose.yaml'
 
 # Create required folders:
+```
 mkdir -p dags logs plugins config jobs data
-
+```
 # Create .env:
+```
 echo "AIRFLOW_UID=$(id -u)" > .env
-
+```
 Custom Airflow Docker Image
 
 # Airflow runs inside Docker containers. Because the pipeline uses PySpark, the Airflow image needs Java and PySpark installed inside the container.
@@ -117,8 +120,9 @@ docker compose ps
 http://EC2_PUBLIC_IPV4:8080
 
 # Create landing folders:
+```
 mkdir -p data/landing/chicago_crimes data/raw data/clean data/lookup
-
+```
 # Download Dataset - 2024 Chicago crimes data:
 ```
 curl -G 'https://data.cityofchicago.org/resource/ijzp-q8t2.csv' \
