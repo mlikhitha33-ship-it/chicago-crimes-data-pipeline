@@ -84,12 +84,17 @@ java -version
 ```
 
 # 3. Create Project Folder
+
+```
 mkdir -p ~/data-engineering-project
 cd ~/data-engineering-project
+```
 
 # 4. Download Airflow Docker Compose File
 
+```
 curl -LfO 'https://airflow.apache.org/docs/apache-airflow/3.1.8/docker-compose.yaml'
+```
 
 # Create required folders:
 ```
