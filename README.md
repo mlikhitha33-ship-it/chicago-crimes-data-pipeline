@@ -107,12 +107,10 @@ docker compose ps
 # Open Airflow:
 http://EC2_PUBLIC_IPV4:8080
 
-# Download Dataset
-
 # Create landing folders:
 mkdir -p data/landing/chicago_crimes data/raw data/clean data/lookup
 
-# Download 2024 Chicago crimes data:
+# Download Dataset - 2024 Chicago crimes data:
 curl -G 'https://data.cityofchicago.org/resource/ijzp-q8t2.csv' \
   --data-urlencode '$limit=500000' \
   --data-urlencode "\$where=date between '2024-01-01T00:00:00' and '2024-12-31T23:59:59'" \
