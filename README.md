@@ -249,15 +249,15 @@ The DAG currently contains two tasks: raw_ingest → transform_crimes. Each task
 The DAG is scheduled daily. Each task has: retries=2
 
 #To run the pipeline:
-```
-Open Airflow UI
-Search for chicago_crimes_pipeline
-Toggle the DAG on
-Click Trigger DAG
-Confirm both tasks turn green
-Output Tables
-Clean Detail Table
-```
+
+- Open Airflow UI
+- Search for chicago_crimes_pipeline
+- Toggle the DAG on
+- Click Trigger DAG
+- Confirm both tasks turn green
+- Output Tables
+- Clean Detail Table
+
 Path:
 
 data/clean/chicago_crimes_detail
