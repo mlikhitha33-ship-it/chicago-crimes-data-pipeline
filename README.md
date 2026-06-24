@@ -22,7 +22,7 @@ This project follows a common data engineering pattern:
 Landing Zone → Raw Zone → Clean Zone → Analytics-Ready Outputs
 
 ## Architecture
-
+```
 Chicago Crimes CSV
         ↓
 PySpark Raw Ingestion Job
@@ -35,6 +35,8 @@ Clean Parquet Zone
         ↓
 Airflow DAG Orchestration
 
+```
+
 # Current Airflow DAG:
 raw_ingest → transform_crimes
 
@@ -43,7 +45,7 @@ Chicago Crimes dataset
 Source : https://data.cityofchicago.org/resource/ijzp-q8t2.csv
 
 # Project Folder Structure
-
+```
 data-engineering-project/
 ├── dags/
 │   └── chicago_crimes_pipeline.py
@@ -58,6 +60,7 @@ data-engineering-project/
 ├── docker-compose.yaml
 ├── README.md
 └── .gitignore
+```
 # Project Execution
 
 1. Launch EC2 Instance
