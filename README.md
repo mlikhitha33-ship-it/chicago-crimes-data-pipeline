@@ -224,18 +224,18 @@ data/raw/chicago_crimes
 ```
 jobs/transform_crimes.py
 ```
-#The transformation job:
-```
-Reads raw Parquet data
-Safely casts data types using try_cast
-Removes invalid records
-Deduplicates rows by id
-Parses crime dates
-Joins with an in-memory crime category lookup table
-Creates daily aggregations
-Calculates 7-day rolling averages
-Writes clean Parquet outputs
-```
+# The transformation job:
+
+- Reads raw Parquet data
+- Safely casts data types using try_cast
+- Removes invalid records
+- Deduplicates rows by id
+- Parses crime dates
+- Joins with an in-memory crime category lookup table
+- Creates daily aggregations
+- Calculates 7-day rolling averages
+- Writes clean Parquet outputs
+
 Output paths:
 ```
 data/clean/chicago_crimes_detail
