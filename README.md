@@ -163,36 +163,35 @@ Clean detail rows: 259170
 Daily summary rows: 7627
 ```
 
-Pipeline Jobs
-Raw Ingestion Job
-
-File:
-
+# Pipeline Jobs
+- Raw Ingestion Job
+- File:
+```
 jobs/raw_ingest.py
+```
+# The raw ingestion job:
 
-The raw ingestion job:
+- Reads raw CSV data from the landing zone
+- Infers schema
+- Adds metadata columns
+- Writes Parquet output to the raw zone
 
-Reads raw CSV data from the landing zone
-Infers schema
-Adds metadata columns
-Writes Parquet output to the raw zone
+# Metadata columns added:
 
-Metadata columns added:
+- ingestion_timestamp
+- source_file
 
-ingestion_timestamp
-source_file
-
-Output path:
-
+# Output path:
+```
 data/raw/chicago_crimes
-Transformation Job
 
-File:
-
+```
+# Transformation Job
+```
 jobs/transform_crimes.py
-
-The transformation job:
-
+```
+#The transformation job:
+```
 Reads raw Parquet data
 Safely casts data types using try_cast
 Removes invalid records
@@ -202,33 +201,21 @@ Joins with an in-memory crime category lookup table
 Creates daily aggregations
 Calculates 7-day rolling averages
 Writes clean Parquet outputs
-
+```
 Output paths:
-
+```
 data/clean/chicago_crimes_detail
 data/clean/chicago_crimes_daily_summary
-Airflow DAG
-
-File:
+```
+# Airflow DAG
 
 dags/chicago_crimes_pipeline.py
 
-The DAG currently contains two tasks:
+The DAG currently contains two tasks: raw_ingest → transform_crimes. Each task uses BashOperator.
+The DAG is scheduled daily. Each task has: retries=2
 
-raw_ingest → transform_crimes
-
-Each task uses BashOperator.
-
-The DAG is scheduled daily:
-
-@daily
-
-Each task has:
-
-retries=2
-
-To run the pipeline:
-
+#To run the pipeline:
+```
 Open Airflow UI
 Search for chicago_crimes_pipeline
 Toggle the DAG on
@@ -236,7 +223,7 @@ Click Trigger DAG
 Confirm both tasks turn green
 Output Tables
 Clean Detail Table
-
+```
 Path:
 
 data/clean/chicago_crimes_detail
