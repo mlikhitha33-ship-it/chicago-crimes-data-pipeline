@@ -4,8 +4,8 @@ This project builds a local data engineering pipeline using PySpark, Apache Airf
 
 ## Project Goal
 ```
-Ingest raw Chicago crimes CSV data, transform it into clean analytics-ready Parquet tables, and orchestrate the workflow using Apache Airflow.
-This project follows a common data engineering pattern: Landing Zone → Raw Zone → Clean Zone → Analytics-Ready Outputs
+- Ingest raw Chicago crimes CSV data, transform it into clean analytics-ready Parquet tables, and orchestrate the workflow using Apache Airflow.
+- This project follows a common data engineering pattern: Landing Zone → Raw Zone → Clean Zone → Analytics-Ready Outputs
 ```
 
 ## Current Pipeline
@@ -14,12 +14,12 @@ raw_ingest → transform_crimes
 
 ## Tech Stack
 ```
-AWS EC2 Ubuntu VM
-Docker
-Apache Airflow
-PySpark
-Parquet
-Python
+- AWS EC2 Ubuntu VM
+- Docker
+- Apache Airflow
+- PySpark
+- Parquet
+- Python
 ```
 
 
