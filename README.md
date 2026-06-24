@@ -58,6 +58,7 @@ data-engineering-project/
 ├── docker-compose.yaml
 ├── README.md
 └── .gitignore
+# Project Execution
 
 1. Launch EC2 Instance
 2. Install System Dependencies
@@ -68,68 +69,68 @@ sudo systemctl enable --now docker
 sudo usermod -aG docker $USER
 newgrp docker
 
-verify:
+# verify:
 docker --version
 docker compose version
 git --version
 java -version
 
-3. Create Project Folder
+# 3. Create Project Folder
 mkdir -p ~/data-engineering-project
 cd ~/data-engineering-project
 
-4. Download Airflow Docker Compose File
+# 4. Download Airflow Docker Compose File
 
 curl -LfO 'https://airflow.apache.org/docs/apache-airflow/3.1.8/docker-compose.yaml'
 
-Create required folders:
+# Create required folders:
 mkdir -p dags logs plugins config jobs data
 
-Create .env:
+# Create .env:
 echo "AIRFLOW_UID=$(id -u)" > .env
 
 Custom Airflow Docker Image
 
-Airflow runs inside Docker containers. Because the pipeline uses PySpark, the Airflow image needs Java and PySpark installed inside the container.
+# Airflow runs inside Docker containers. Because the pipeline uses PySpark, the Airflow image needs Java and PySpark installed inside the container.
 
-Create a Dockerfile:
+# Create a Dockerfile:
 
-Build and start Airflow:
+# Build and start Airflow:
 
 docker compose build airflow-init
 docker compose up airflow-init
 docker compose up -d
 
-Check containers:
+# Check containers:
 docker compose ps
 
-Open Airflow:
+# Open Airflow:
 http://EC2_PUBLIC_IPV4:8080
 
-Download Dataset
+# Download Dataset
 
-Create landing folders:
+# Create landing folders:
 mkdir -p data/landing/chicago_crimes data/raw data/clean data/lookup
 
-Download 2024 Chicago crimes data:
+# Download 2024 Chicago crimes data:
 curl -G 'https://data.cityofchicago.org/resource/ijzp-q8t2.csv' \
   --data-urlencode '$limit=500000' \
   --data-urlencode "\$where=date between '2024-01-01T00:00:00' and '2024-12-31T23:59:59'" \
   -o data/landing/chicago_crimes/chicago_crimes_2024.csv
 
-Verify
+# Verify
 ls -lh data/landing/chicago_crimes/
 head -n 3 data/landing/chicago_crimes/chicago_crimes_2024.csv
 
-Run Jobs Manually
+# Run Jobs Manually
 
-Create and activate a local Python virtual environment if you want to test jobs directly on the EC2 host:
+# Create and activate a local Python virtual environment if you want to test jobs directly on the EC2 host:
 
 python3 -m venv .venv
 source .venv/bin/activate
 pip install pyspark
 
-Run raw ingestion:
+# Run raw ingestion:
 
 python jobs/raw_ingest.py
 
@@ -137,7 +138,7 @@ Expected output:
 Raw ingestion completed
 Rows loaded: 774222
 
-Run transformation:
+# Run transformation:
 python jobs/transform_crimes.py
 
 Transformation completed
