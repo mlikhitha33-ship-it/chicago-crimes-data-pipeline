@@ -64,23 +64,29 @@ data-engineering-project/
 ```
 # Project Execution
 
-1. Launch EC2 Instance
+1. Launch EC2 Instance [t3.large minumum and 30-50 GB storage
 2. Install System Dependencies
 
 ```
 sudo apt update
 sudo apt install -y docker.io docker-compose-v2 git curl unzip openjdk-17-jdk python3-venv
+
+# Start Docker
+```
 sudo systemctl enable --now docker
 sudo usermod -aG docker $USER
 newgrp docker
 ```
-# verify:
+# verify Installation:
 ```
 docker --version
 docker compose version
 git --version
 java -version
 ```
+
+# Test Docker
+
 
 # 3. Create Project Folder
 
@@ -155,6 +161,12 @@ pip install pyspark
 ```
 # Run raw ingestion:
 
+- Read CSV using an explicit Spark schema
+- Add ingestion_timestamp and source_file
+- Write partitioned Parquet to the raw bucket
+- Avoid relying on automatic schema inference in the final version
+- Transformation
+
 python jobs/raw_ingest.py
 
 ```
@@ -164,6 +176,14 @@ Rows loaded: 774222
 ```
 
 # Run transformation:
+
+- Remove duplicates
+- Convert strings into dates and numeric types
+- Handle missing values
+- Join the district lookup
+- Calculate daily crime totals and rolling averages
+- Write results to the clean bucket
+  
 python jobs/transform_crimes.py
 ```
 Transformation completed
