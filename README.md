@@ -4,22 +4,23 @@ This project builds a local data engineering pipeline using PySpark, Apache Airf
 
 ## Project Goal
 
-Ingest raw Chicago crimes CSV data, transform it into clean analytics-ready Parquet tables, and orchestrate the workflow using Apache Airflow.
+Ingest raw Chicago crimes CSV data, transform it into clean analytics-ready Parquet tables, and orchestrate the workflow using Apache Airflow.This project follows a common data engineering pattern:
+Landing Zone → Raw Zone → Clean Zone → Analytics-Ready Outputs
 
 ## Current Pipeline
 
 raw_ingest → transform_crimes
 
 ## Tech Stack
-
+```
 AWS EC2 Ubuntu VM
 Docker
 Apache Airflow
 PySpark
 Parquet
 Python
-This project follows a common data engineering pattern:
-Landing Zone → Raw Zone → Clean Zone → Analytics-Ready Outputs
+```
+
 
 ## Architecture
 ```
@@ -66,17 +67,20 @@ data-engineering-project/
 1. Launch EC2 Instance
 2. Install System Dependencies
 
+```
 sudo apt update
 sudo apt install -y docker.io docker-compose-v2 git curl unzip openjdk-17-jdk python3-venv
 sudo systemctl enable --now docker
 sudo usermod -aG docker $USER
 newgrp docker
-
+```
 # verify:
+```
 docker --version
 docker compose version
 git --version
 java -version
+```
 
 # 3. Create Project Folder
 mkdir -p ~/data-engineering-project
@@ -100,9 +104,11 @@ Custom Airflow Docker Image
 
 # Build and start Airflow:
 
+```
 docker compose build airflow-init
 docker compose up airflow-init
 docker compose up -d
+```
 
 # Check containers:
 docker compose ps
@@ -114,37 +120,44 @@ http://EC2_PUBLIC_IPV4:8080
 mkdir -p data/landing/chicago_crimes data/raw data/clean data/lookup
 
 # Download Dataset - 2024 Chicago crimes data:
+```
 curl -G 'https://data.cityofchicago.org/resource/ijzp-q8t2.csv' \
   --data-urlencode '$limit=500000' \
   --data-urlencode "\$where=date between '2024-01-01T00:00:00' and '2024-12-31T23:59:59'" \
   -o data/landing/chicago_crimes/chicago_crimes_2024.csv
+```
+
 
 # Verify
+```
 ls -lh data/landing/chicago_crimes/
 head -n 3 data/landing/chicago_crimes/chicago_crimes_2024.csv
+```
 
-# Run Jobs Manually
+# Run Jobs Manually - Create and activate a local Python virtual environment if you want to test jobs directly on the EC2 host:
 
-# Create and activate a local Python virtual environment if you want to test jobs directly on the EC2 host:
-
+```
 python3 -m venv .venv
 source .venv/bin/activate
 pip install pyspark
-
+```
 # Run raw ingestion:
 
 python jobs/raw_ingest.py
 
+```
 Expected output:
 Raw ingestion completed
 Rows loaded: 774222
+```
 
 # Run transformation:
 python jobs/transform_crimes.py
-
+```
 Transformation completed
 Clean detail rows: 259170
 Daily summary rows: 7627
+```
 
 Pipeline Jobs
 Raw Ingestion Job
