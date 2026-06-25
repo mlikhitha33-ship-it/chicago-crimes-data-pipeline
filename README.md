@@ -64,8 +64,8 @@ data-engineering-project/
 ```
 # Project Execution
 
-# 1. Launch EC2 Instance [t3.large minumum and 30-50 GB storage
-# 2. Install System Dependencies
+# 1. Launch EC2 Ubuntu Linux Instance [t3.large minimum and 30-50 GB storage ]
+# 2. Install required System Dependencies
 
 ```
 sudo apt update
