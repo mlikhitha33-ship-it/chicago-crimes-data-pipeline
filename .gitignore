@@ -13,3 +13,4 @@ data/clean/
 
 *.parquet
 *.csv
+data/quality/
