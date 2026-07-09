@@ -88,7 +88,7 @@ https://data.cityofchicago.org/resource/ijzp-q8t2.csv
 
 The pipeline currently uses 2024 Chicago crime records.
 
-## Data Dictonary
+## Data Dictionary
 
 
 | Column                 | Type      | Description                                                                                                                                                    |
@@ -134,9 +134,8 @@ The grain and key review helps confirm that downstream transformations are built
 
 Before transforming the raw Chicago Crimes data, an initial profiling step was performed to understand the structure, record count, column uniqueness, and potential key fields in the dataset.
 
-import pandas as pd
-
 ```
+import pandas as pd
 df = pd.read_csv("/home/ubuntu/data-engineering-project/data/landing/chicago_crimes/chicago_crimes_2024.csv")
 print(df.nunique().sort_values())
 num_rows = len(df.index)
