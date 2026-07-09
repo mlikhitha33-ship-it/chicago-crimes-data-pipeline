@@ -47,16 +47,19 @@ Source : https://data.cityofchicago.org/resource/ijzp-q8t2.csv
 
 # Project Folder Structure
 ```
+```text
 data-engineering-project/
 ├── dags/
 │   └── chicago_crimes_pipeline.py
 ├── jobs/
 │   ├── raw_ingest.py
+│   ├── raw_data_quality.py
 │   └── transform_crimes.py
 ├── data/
 │   ├── landing/
 │   ├── raw/
-│   └── clean/
+│   ├── clean/
+│   └── quality/
 ├── Dockerfile
 ├── docker-compose.yaml
 ├── README.md
