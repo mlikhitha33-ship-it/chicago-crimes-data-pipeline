@@ -116,29 +116,22 @@ The pipeline currently uses 2024 Chicago crime records.
 | `longitude`            | Number    | Longitude of the incident location. The location is shifted for privacy but remains on the same block.                                                         |
 | `location`             | Location  | Geographic point field used by the data portal for maps and geographic operations. The location is shifted for privacy but remains on the same block.          |
 
+### Dataset Grain and Key Fields
 
-## Project Folder Structure
 
-```text
-data-engineering-project/
-├── dags/
-│   └── chicago_crimes_pipeline.py
-├── jobs/
-│   ├── raw_ingest.py
-│   ├── raw_data_quality.py
-│   └── transform_crimes.py
-├── data/
-│   ├── landing/
-│   ├── raw/
-│   ├── clean/
-│   └── quality/
-├── Dockerfile
-├── docker-compose.yaml
-├── README.md
-└── .gitignore
-```
+> One row represents one reported crime incident record from the Chicago Police Department source data. Before using the data for transformation or analytics, key fields are reviewed to understand how records can be identified and validated.
 
-The `data/` folders are generated locally and are not committed to GitHub.
+| Field         | Role in Dataset                | Notes                                                                                                                                                        |
+| ------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `id`          | Record-level identifier        | Used as the primary identifier for each crime record in the dataset. This field should be unique in the raw data.                                            |
+| `case_number` | Police incident/case reference | Represents the Chicago Police Department case number associated with the incident. This field is useful for traceability back to the source incident record. |
+| `date`        | Incident timestamp             | Used to understand when the incident occurred and to support time-based analysis.                                                                            |
+| `updated_on`  | Record maintenance timestamp   | Used to understand when the source record was last updated. This is important for incremental loading and future pipeline refresh logic.                     |
+
+The `id` column is used as the main record identifier for data quality checks and duplicate detection. The `case_number` column is also reviewed because it provides an incident reference number, but uniqueness should be validated before relying on it as a key.
+
+The grain and key review helps confirm that downstream transformations are built at the correct level of detail.
+
 
 ## Setup From Scratch
 
@@ -188,6 +181,27 @@ java -version
 mkdir -p ~/data-engineering-project
 cd ~/data-engineering-project
 ```
+## Project Folder Structure
+
+```text
+data-engineering-project/
+├── dags/
+│   └── chicago_crimes_pipeline.py
+├── jobs/
+│   ├── raw_ingest.py
+│   ├── raw_data_quality.py
+│   └── transform_crimes.py
+├── data/
+│   ├── landing/
+│   ├── raw/
+│   ├── clean/
+│   └── quality/
+├── Dockerfile
+├── docker-compose.yaml
+├── README.md
+└── .gitignore
+```
+The `data/` folders are generated locally and are not committed to GitHub.
 
 ### 4. Download Airflow Docker Compose File
 
