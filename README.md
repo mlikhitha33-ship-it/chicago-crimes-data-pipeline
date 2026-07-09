@@ -40,23 +40,6 @@ Airflow orchestration
 - Git
 - GitHub
 
-## Architecture
-
-```text
-Chicago Crimes CSV
-        ↓
-PySpark Raw Ingestion Job
-        ↓
-Raw Parquet Zone
-        ↓
-Raw Data Quality Job
-        ↓
-PySpark Transformation Job
-        ↓
-Clean Parquet Zone
-        ↓
-Airflow DAG Orchestration
-```
 
 ## Dataset
 
@@ -421,6 +404,24 @@ Verify:
 ```bash
 ls -lh data/landing/chicago_crimes/
 head -n 3 data/landing/chicago_crimes/chicago_crimes_2024.csv
+```
+
+## Architecture
+
+```text
+Chicago Crimes CSV
+        ↓
+PySpark Raw Ingestion Job
+        ↓
+Raw Parquet Zone
+        ↓
+Raw Data Quality Job
+        ↓
+PySpark Transformation Job
+        ↓
+Clean Parquet Zone
+        ↓
+Airflow DAG Orchestration
 ```
 
 ## Run Jobs Manually
