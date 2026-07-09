@@ -28,20 +28,6 @@ Clean transformed zone
 Airflow orchestration
 ```
 
-## Current Pipeline
-
-Current Airflow DAG:
-
-```text
-raw_ingest → transform_crimes
-```
-
-The raw data quality job has been implemented and manually tested. The next step is to add it into the Airflow DAG so the pipeline becomes:
-
-```text
-raw_ingest → raw_data_quality → transform_crimes
-```
-
 ## Tech Stack
 
 - AWS EC2 Ubuntu VM
@@ -246,6 +232,13 @@ flowchart TB
     class fact_crime_incident fact;
     class dim_date,dim_time_of_day,dim_crime_type,dim_police_area,dim_civic_area,dim_location_type,dim_location_point dimension;
     class agg_daily_crime_summary aggregate;
+
+```
+
+## Current Pipeline
+
+```text
+raw_ingest → raw_data_quality → transform_crimes
 ```
 
 ## Infrastructure Setup From Scratch
