@@ -88,6 +88,36 @@ https://data.cityofchicago.org/resource/ijzp-q8t2.csv
 
 The pipeline currently uses 2024 Chicago crime records.
 
+## Data Dictonary
+
+### Data Dictionary
+
+| Column                 | Type      | Description                                                                                                                                                    |
+| ---------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`                   | Number    | Unique identifier for the crime record.                                                                                                                        |
+| `case_number`          | Text      | Chicago Police Department Records Division Number. This is unique to the incident.                                                                             |
+| `date`                 | Date/Time | Date and time when the incident occurred. This may sometimes be a best estimate.                                                                               |
+| `block`                | Text      | Partially redacted address where the incident occurred. The address is shown at the block level only.                                                          |
+| `iucr`                 | Text      | Illinois Uniform Crime Reporting code. This code is directly linked to the primary crime type and description.                                                 |
+| `primary_type`         | Text      | Primary description of the IUCR code. This represents the broad crime category.                                                                                |
+| `description`          | Text      | Secondary description of the IUCR code. This provides a more specific crime subcategory.                                                                       |
+| `location_description` | Text      | Description of the type of location where the incident occurred.                                                                                               |
+| `arrest`               | Boolean   | Indicates whether an arrest was made.                                                                                                                          |
+| `domestic`             | Boolean   | Indicates whether the incident was domestic-related as defined by the Illinois Domestic Violence Act.                                                          |
+| `beat`                 | Text      | Police beat where the incident occurred. A beat is the smallest police geographic area.                                                                        |
+| `district`             | Text      | Police district where the incident occurred.                                                                                                                   |
+| `ward`                 | Number    | City Council ward where the incident occurred.                                                                                                                 |
+| `community_area`       | Text      | Community area where the incident occurred. Chicago has 77 community areas.                                                                                    |
+| `fbi_code`             | Text      | Crime classification based on the FBI National Incident Based Reporting System, also known as NIBRS.                                                           |
+| `x_coordinate`         | Number    | X coordinate of the incident location in the State Plane Illinois East NAD 1983 projection. The location is shifted for privacy but remains on the same block. |
+| `y_coordinate`         | Number    | Y coordinate of the incident location in the State Plane Illinois East NAD 1983 projection. The location is shifted for privacy but remains on the same block. |
+| `year`                 | Number    | Year when the incident occurred.                                                                                                                               |
+| `updated_on`           | Date/Time | Date and time when the record was last updated.                                                                                                                |
+| `latitude`             | Number    | Latitude of the incident location. The location is shifted for privacy but remains on the same block.                                                          |
+| `longitude`            | Number    | Longitude of the incident location. The location is shifted for privacy but remains on the same block.                                                         |
+| `location`             | Location  | Geographic point field used by the data portal for maps and geographic operations. The location is shifted for privacy but remains on the same block.          |
+
+
 ## Project Folder Structure
 
 ```text
