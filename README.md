@@ -182,97 +182,68 @@ The source data is still stored as a single raw file, but the below structure he
 ## Conceptual Analytics Data Model
 
 ```mermaid
-erDiagram
-    fact_crime_incident {
-        bigint id PK
-        string case_number
-        timestamp crime_timestamp
-        int crime_type_key FK
-        int date_key FK
-        int time_of_day_key FK
-        int police_area_key FK
-        int civic_area_key FK
-        int location_type_key FK
-        int location_point_key FK
-        boolean arrest
-        boolean domestic
-        timestamp updated_on
-    }
+flowchart TB
 
-    dim_crime_type {
-        int crime_type_key PK
-        string iucr
-        string primary_type
-        string description
-        string fbi_code
-        string crime_category
-    }
+    %% =========================
+    %% Date / Time Dimensions
+    %% =========================
+    subgraph date_time["Date / Time Dimensions"]
+        dim_date["dim_date<br/><br/>date_key PK<br/>crime_date<br/>year<br/>month<br/>day<br/>weekday"]
+        dim_time_of_day["dim_time_of_day<br/><br/>time_of_day_key PK<br/>hour<br/>minute<br/>daypart"]
+    end
 
-    dim_date {
-        int date_key PK
-        date crime_date
-        int year
-        int month
-        int day
-        string weekday
-    }
+    %% =========================
+    %% Crime Dimension
+    %% =========================
+    subgraph crime_dims["Crime Classification Dimension"]
+        dim_crime_type["dim_crime_type<br/><br/>crime_type_key PK<br/>iucr<br/>primary_type<br/>description<br/>fbi_code<br/>crime_category"]
+    end
 
-    dim_time_of_day {
-        int time_of_day_key PK
-        int hour
-        int minute
-        string daypart
-    }
+    %% =========================
+    %% Geography / Location Dimensions
+    %% =========================
+    subgraph geo_dims["Geography / Location Dimensions"]
+        dim_police_area["dim_police_area<br/><br/>police_area_key PK<br/>beat<br/>district"]
 
-    dim_police_area {
-        int police_area_key PK
-        string beat
-        string district
-    }
+        dim_civic_area["dim_civic_area<br/><br/>civic_area_key PK<br/>ward<br/>community_area"]
 
-    dim_civic_area {
-        int civic_area_key PK
-        string ward
-        string community_area
-    }
+        dim_location_type["dim_location_type<br/><br/>location_type_key PK<br/>location_description"]
 
-    dim_location_type {
-        int location_type_key PK
-        string location_description
-    }
+        dim_location_point["dim_location_point<br/><br/>location_point_key PK<br/>block<br/>latitude<br/>longitude<br/>x_coordinate<br/>y_coordinate"]
+    end
 
-    dim_location_point {
-        int location_point_key PK
-        string block
-        double latitude
-        double longitude
-        double x_coordinate
-        double y_coordinate
-    }
+    %% =========================
+    %% Core Fact
+    %% =========================
+    fact_crime_incident["fact_crime_incident<br/><br/>id PK<br/>case_number<br/>crime_timestamp<br/>crime_type_key FK<br/>date_key FK<br/>time_of_day_key FK<br/>police_area_key FK<br/>civic_area_key FK<br/>location_type_key FK<br/>location_point_key FK<br/>arrest<br/>domestic<br/>updated_on"]
 
-    agg_daily_crime_summary {
-        int date_key FK
-        int crime_type_key FK
-        date crime_date
-        string primary_type
-        string crime_category
-        int total_crimes
-        int total_arrests
-        int domestic_crimes
-        double seven_day_rolling_avg
-    }
+    %% =========================
+    %% Reporting Aggregate
+    %% =========================
+    agg_daily_crime_summary["agg_daily_crime_summary<br/><br/>date_key FK<br/>crime_type_key FK<br/>crime_date<br/>primary_type<br/>crime_category<br/>total_crimes<br/>total_arrests<br/>domestic_crimes<br/>seven_day_rolling_avg"]
 
-    dim_crime_type ||--o{ fact_crime_incident : classifies
-    dim_date ||--o{ fact_crime_incident : occurs_on
-    dim_time_of_day ||--o{ fact_crime_incident : occurs_at
-    dim_police_area ||--o{ fact_crime_incident : reported_in
-    dim_civic_area ||--o{ fact_crime_incident : located_in
-    dim_location_type ||--o{ fact_crime_incident : happened_at
-    dim_location_point ||--o{ fact_crime_incident : geocoded_to
+    %% Relationships
+    dim_date -->|occurs on| fact_crime_incident
+    dim_time_of_day -->|occurs at| fact_crime_incident
+    dim_crime_type -->|classifies| fact_crime_incident
+    dim_police_area -->|reported in| fact_crime_incident
+    dim_civic_area -->|located in| fact_crime_incident
+    dim_location_type -->|happened at| fact_crime_incident
+    dim_location_point -->|geocoded to| fact_crime_incident
 
-    fact_crime_incident ||--o{ agg_daily_crime_summary : derives
-    dim_date ||--o{ agg_daily_crime_summary : summarizes_by_date
-    dim_crime_type ||--o{ agg_daily_crime_summary : summarizes_by_crime_type
+    fact_crime_incident -->|derived into| agg_daily_crime_summary
+    dim_date -->|summarizes by date| agg_daily_crime_summary
+    dim_crime_type -->|summarizes by crime type| agg_daily_crime_summary
+
+    %% Styling
+    classDef fact fill:#e8f1ff,stroke:#2563eb,stroke-width:2px,color:#111827;
+    classDef dimension fill:#f8fafc,stroke:#64748b,stroke-width:1.5px,color:#111827;
+    classDef aggregate fill:#ecfdf5,stroke:#059669,stroke-width:2px,color:#111827;
+    classDef group fill:#ffffff,stroke:#d1d5db,stroke-width:1px,color:#111827;
+
+    class fact_crime_incident fact;
+    class dim_date,dim_time_of_day,dim_crime_type,dim_police_area,dim_civic_area,dim_location_type,dim_location_point dimension;
+    class agg_daily_crime_summary aggregate;
 ```
 
 The conceptual model defines the incident-level analytical structure first. The central grain is one row per reported crime incident in `fact_crime_incident`. Reporting dimensions such as crime type, date, time of day, police area, civic area, location type, and location point are modeled separately because they support different analytical questions.
