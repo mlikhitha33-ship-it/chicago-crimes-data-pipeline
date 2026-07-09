@@ -179,6 +179,83 @@ The source data is still stored as a single raw file, but the below structure he
 
 <img width="873" height="388" alt="image" src="https://github.com/user-attachments/assets/6de5e11d-b246-4b30-913f-f48e133af866" />
 
+## Conceptual Analytics Data Model
+
+```mermaid
+erDiagram
+    fact_crime_incident {
+        bigint id PK
+        string case_number
+        int crime_type_key FK
+        int date_key FK
+        int time_key FK
+        int police_area_key FK
+        int civic_area_key FK
+        int location_type_key FK
+        int location_point_key FK
+        boolean arrest
+        boolean domestic
+        timestamp updated_on
+    }
+
+    dim_crime_type {
+        int crime_type_key PK
+        string iucr
+        string primary_type
+        string description
+        string fbi_code
+    }
+
+    dim_date {
+        int date_key PK
+        date crime_date
+        int year
+        int month
+        int day
+        string weekday
+    }
+
+    dim_time {
+        int time_key PK
+        int hour
+        int minute
+    }
+
+    dim_police_area {
+        int police_area_key PK
+        string beat
+        string district
+    }
+
+    dim_civic_area {
+        int civic_area_key PK
+        string ward
+        string community_area
+    }
+
+    dim_location_type {
+        int location_type_key PK
+        string location_description
+    }
+
+    dim_location_point {
+        int location_point_key PK
+        string block
+        double latitude
+        double longitude
+        double x_coordinate
+        double y_coordinate
+    }
+
+    dim_crime_type ||--o{ fact_crime_incident : classifies
+    dim_date ||--o{ fact_crime_incident : occurs_on
+    dim_time ||--o{ fact_crime_incident : occurs_at
+    dim_police_area ||--o{ fact_crime_incident : reported_in
+    dim_civic_area ||--o{ fact_crime_incident : located_in
+    dim_location_type ||--o{ fact_crime_incident : happened_at
+    dim_location_point ||--o{ fact_crime_incident : geocoded_to
+```
+
 
 ## Infrastructure Setup From Scratch
 
