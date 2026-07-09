@@ -130,8 +130,53 @@ The grain and key review helps confirm that downstream transformations are built
 | date        | Incident timestamp             | Used to understand when the incident occurred and to support time-based analysis.                                                                            |
 | updated_on  | Record maintenance timestamp   | Used to understand when the source record was last updated. This is important for incremental loading and future pipeline refresh logic.                     |
 
+### Initial Data Profiling and Uniqueness Review
 
-## Setup From Scratch
+Before transforming the raw Chicago Crimes data, an initial profiling step was performed to understand the structure, record count, column uniqueness, and potential key fields in the dataset.
+
+import pandas as pd
+
+```
+df = pd.read_csv("/home/ubuntu/data-engineering-project/data/landing/chicago_crimes/chicago_crimes_2024.csv")
+print(df.nunique().sort_values())
+num_rows = len(df.index)
+print(f"Total Number of rows: {num_rows}")
+```
+
+For the 2024 raw CSV file, the dataset contains:
+
+| Metric                               |   Value |
+| ------------------------------------ | ------: |
+| Total rows                           | 259,170 |
+| Year values                          |       1 |
+| Unique `id` values                   | 259,170 |
+| Unique `case_number` values          | 259,141 |
+| Unique `primary_type` values         |      31 |
+| Unique `description` values          |     318 |
+| Unique `iucr` values                 |     340 |
+| Unique `location_description` values |     129 |
+| Unique `district` values             |      23 |
+| Unique `ward` values                 |      50 |
+| Unique `community_area` values       |      77 |
+| Unique `beat` values                 |     275 |
+
+The uniqueness review helps identify the role of each column in the dataset.
+
+| Column Group                                      | Observation                                         | Interpretation                                                                                      |
+| ------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `id`                                              | Number of unique values equals total row count      | `id` appears to uniquely identify each raw crime record.                                            |
+| `case_number`                                     | Unique count is slightly lower than total row count | `case_number` should be reviewed further for duplicates or missing values before using it as a key. |
+| `year`                                            | Only one unique value                               | The file represents a single-year extract for 2024.                                                 |
+| `primary_type`, `description`, `iucr`, `fbi_code` | Repeating categorical values                        | These fields describe crime classification and may support a crime type dimension.                  |
+| `district`, `ward`, `community_area`, `beat`      | Repeating geographic/reporting values               | These fields support geographic and police-area based analysis.                                     |
+| `arrest`, `domestic`                              | Two unique values each                              | These are boolean/status fields useful for incident-level analysis.                                 |
+| `date`, `block`, coordinates, and `location`      | High number of unique values                        | These fields describe event timing and location details at the incident level.                      |
+
+This profiling step confirms that the dataset is primarily an incident-level dataset. The `id` column is the strongest candidate for the primary record identifier, while other repeating fields can be evaluated as potential dimension attributes in the analytics model.
+
+
+
+## Infrastructure Setup From Scratch
 
 ### 1. Launch EC2 Instance
 
