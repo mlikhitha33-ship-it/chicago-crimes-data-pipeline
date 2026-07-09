@@ -309,7 +309,20 @@ Total rows: 259170
 Raw data quality checks completed
 ```
 
-View the latest quality report:
+required_columns_exist              PASS
+row_count_between_expected_range    PASS
+null_id_count                       PASS
+invalid_id_count                    PASS
+duplicate_id_group_count            PASS
+duplicate_record_count              PASS
+null_date_count                     PASS
+invalid_date_count                  PASS
+future_date_count                   PASS
+null_primary_type_count             PASS
+invalid_latitude_count              PASS
+invalid_longitude_count             PASS
+
+View the fully generated latest quality report:
 
 ```bash
 cat data/quality/raw_chicago_crimes/reports/raw_dq_latest.md
