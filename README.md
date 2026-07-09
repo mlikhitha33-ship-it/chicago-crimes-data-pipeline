@@ -308,7 +308,7 @@ Raw Data Quality Report
 Total rows: 259170
 Raw data quality checks completed
 ```
-
+```
 required_columns_exist              PASS
 row_count_between_expected_range    PASS
 null_id_count                       PASS
@@ -321,7 +321,7 @@ future_date_count                   PASS
 null_primary_type_count             PASS
 invalid_latitude_count              PASS
 invalid_longitude_count             PASS
-
+```
 View the fully generated latest quality report:
 
 ```bash
