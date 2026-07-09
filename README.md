@@ -174,6 +174,11 @@ The uniqueness review helps identify the role of each column in the dataset.
 
 This profiling step confirms that the dataset is primarily an incident-level dataset. The `id` column is the strongest candidate for the primary record identifier, while other repeating fields can be evaluated as potential dimension attributes in the analytics model.
 
+### Data Model
+
+The source data is still stored as a single raw file, but the below structure helps explain how the dataset can be organized for analytics, reporting, and downstream transformations
+
+<img width="873" height="388" alt="image" src="https://github.com/user-attachments/assets/6de5e11d-b246-4b30-913f-f48e133af866" />
 
 
 ## Infrastructure Setup From Scratch
