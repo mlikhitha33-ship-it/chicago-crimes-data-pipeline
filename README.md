@@ -119,7 +119,9 @@ The pipeline currently uses 2024 Chicago crime records.
 ### Dataset Grain and Key Fields
 
 
-> One row represents one reported crime incident record from the Chicago Police Department source data. Before using the data for transformation or analytics, key fields are reviewed to understand how records can be identified and validated.
+> One row represents one reported crime incident record from the Chicago Police Department source data. Before using the data for transformation or analytics, key fields are reviewed to understand how records can be identified and validated.The id column is used as the main record identifier for data quality checks and duplicate detection. The `case_number` column is also reviewed because it provides an incident reference number, but uniqueness should be validated before relying on it as a key.
+
+The grain and key review helps confirm that downstream transformations are built at the correct level of detail.
 
 | Field       | Role in Dataset                | Notes                                                                                                                                                        |
 | ------------| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -127,10 +129,6 @@ The pipeline currently uses 2024 Chicago crime records.
 | case_number | Police incident/case reference | Represents the Chicago Police Department case number associated with the incident. This field is useful for traceability back to the source incident record. |
 | date        | Incident timestamp             | Used to understand when the incident occurred and to support time-based analysis.                                                                            |
 | updated_on  | Record maintenance timestamp   | Used to understand when the source record was last updated. This is important for incremental loading and future pipeline refresh logic.                     |
-
-The id column is used as the main record identifier for data quality checks and duplicate detection. The `case_number` column is also reviewed because it provides an incident reference number, but uniqueness should be validated before relying on it as a key.
-
-The grain and key review helps confirm that downstream transformations are built at the correct level of detail.
 
 
 ## Setup From Scratch
