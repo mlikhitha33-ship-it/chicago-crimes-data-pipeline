@@ -205,6 +205,7 @@ erDiagram
         string primary_type
         string description
         string fbi_code
+        string crime_category
     }
 
     dim_date {
@@ -249,6 +250,18 @@ erDiagram
         double y_coordinate
     }
 
+    agg_daily_crime_summary {
+        int date_key FK
+        int crime_type_key FK
+        date crime_date
+        string primary_type
+        string crime_category
+        int total_crimes
+        int total_arrests
+        int domestic_crimes
+        double seven_day_rolling_avg
+    }
+
     dim_crime_type ||--o{ fact_crime_incident : classifies
     dim_date ||--o{ fact_crime_incident : occurs_on
     dim_time_of_day ||--o{ fact_crime_incident : occurs_at
@@ -256,9 +269,17 @@ erDiagram
     dim_civic_area ||--o{ fact_crime_incident : located_in
     dim_location_type ||--o{ fact_crime_incident : happened_at
     dim_location_point ||--o{ fact_crime_incident : geocoded_to
+
+    fact_crime_incident ||--o{ agg_daily_crime_summary : derives
+    dim_date ||--o{ agg_daily_crime_summary : summarizes_by_date
+    dim_crime_type ||--o{ agg_daily_crime_summary : summarizes_by_crime_type
 ```
 
-This conceptual model keeps time, police geography, civic geography, location type, and location point as separate analytical dimensions because they answer different reporting questions. The current pipeline implements the first phase of this model by creating an incident-level clean detail output and a daily aggregate summary, while the dimensional structure represents the target analytical design as reporting needs evolve.
+The conceptual model defines the incident-level analytical structure first. The central grain is one row per reported crime incident in `fact_crime_incident`. Reporting dimensions such as crime type, date, time of day, police area, civic area, location type, and location point are modeled separately because they support different analytical questions.
+
+Aggregate table requirements are also considered during the modeling phase. `agg_daily_crime_summary` is a derived reporting table designed for dashboard and trend analysis. Its grain is one row per crime date and crime type/category, with metrics such as total crimes, arrests, domestic incidents, and seven-day rolling average.
+
+The current pipeline already implements an early version of this aggregate output through `chicago_crimes_daily_summary`. As the pipeline evolves, the transformation can be modified to align more closely with this conceptual model by materializing dimensions, creating `fact_crime_incident`, and deriving `agg_daily_crime_summary` from the fact table.
 
 ## Infrastructure Setup From Scratch
 
