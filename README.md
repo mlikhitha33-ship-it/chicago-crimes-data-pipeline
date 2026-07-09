@@ -176,8 +176,8 @@ This profiling step confirms that the dataset is primarily an incident-level dat
 ### Data Model
 
 The source data is still stored as a single raw file, but the below structure helps explain how the dataset can be organized for analytics, reporting, and downstream transformations
-
-<img width="873" height="388" alt="image" src="https://github.com/user-attachments/assets/6de5e11d-b246-4b30-913f-f48e133af866" />
+The conceptual model is organized around the core analytical event: a reported crime incident. `fact_crime_incident` represents one row per crime incident and connects to descriptive dimensions for crime classification, date, time of day, police geography, civic geography, location type, and geocoded location.
+Aggregate table requirements are considered during the modeling phase because reporting users need dashboard-ready trend metrics. `agg_daily_crime_summary` is a derived reporting table built from the incident fact to support daily crime trends, arrest counts, domestic incident counts, and rolling average analysis.
 
 ## Conceptual Analytics Data Model
 
@@ -246,11 +246,6 @@ flowchart TB
     class agg_daily_crime_summary aggregate;
 ```
 
-The conceptual model defines the incident-level analytical structure first. The central grain is one row per reported crime incident in `fact_crime_incident`. Reporting dimensions such as crime type, date, time of day, police area, civic area, location type, and location point are modeled separately because they support different analytical questions.
-
-Aggregate table requirements are also considered during the modeling phase. `agg_daily_crime_summary` is a derived reporting table designed for dashboard and trend analysis. Its grain is one row per crime date and crime type/category, with metrics such as total crimes, arrests, domestic incidents, and seven-day rolling average.
-
-The current pipeline already implements an early version of this aggregate output through `chicago_crimes_daily_summary`. As the pipeline evolves, the transformation can be modified to align more closely with this conceptual model by materializing dimensions, creating `fact_crime_incident`, and deriving `agg_daily_crime_summary` from the fact table.
 
 ## Infrastructure Setup From Scratch
 
