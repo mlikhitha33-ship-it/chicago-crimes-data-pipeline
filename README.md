@@ -186,9 +186,10 @@ erDiagram
     fact_crime_incident {
         bigint id PK
         string case_number
+        timestamp crime_timestamp
         int crime_type_key FK
         int date_key FK
-        int time_key FK
+        int time_of_day_key FK
         int police_area_key FK
         int civic_area_key FK
         int location_type_key FK
@@ -215,10 +216,11 @@ erDiagram
         string weekday
     }
 
-    dim_time {
-        int time_key PK
+    dim_time_of_day {
+        int time_of_day_key PK
         int hour
         int minute
+        string daypart
     }
 
     dim_police_area {
@@ -249,13 +251,14 @@ erDiagram
 
     dim_crime_type ||--o{ fact_crime_incident : classifies
     dim_date ||--o{ fact_crime_incident : occurs_on
-    dim_time ||--o{ fact_crime_incident : occurs_at
+    dim_time_of_day ||--o{ fact_crime_incident : occurs_at
     dim_police_area ||--o{ fact_crime_incident : reported_in
     dim_civic_area ||--o{ fact_crime_incident : located_in
     dim_location_type ||--o{ fact_crime_incident : happened_at
     dim_location_point ||--o{ fact_crime_incident : geocoded_to
 ```
 
+This conceptual model keeps time, police geography, civic geography, location type, and location point as separate analytical dimensions because they answer different reporting questions. The current pipeline implements the first phase of this model by creating an incident-level clean detail output and a daily aggregate summary, while the dimensional structure represents the target analytical design as reporting needs evolve.
 
 ## Infrastructure Setup From Scratch
 
