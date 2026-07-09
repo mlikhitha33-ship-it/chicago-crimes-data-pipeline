@@ -181,6 +181,8 @@ The conceptual model is organized around the core analytical event: a reported c
 
 ## Conceptual Analytics Data Model
 
+7 dimensions + 1 incident fact + 1 aggregate summary
+
 ```mermaid
 flowchart TB
 
