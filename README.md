@@ -229,7 +229,7 @@ The `agg_daily_crime_summary` table is designed for dashboard-ready trend report
 | `domestic_crimes` | `domestic` flag from `fact_crime_incident` | `SUM(CASE WHEN domestic = true THEN 1 ELSE 0 END)` | Additive | Number of incidents marked as domestic-related |
 | `seven_day_rolling_avg` | Daily `total_crimes` | Average of `total_crimes` over the current day and previous 6 days, partitioned by crime type/category | Derived time-series metric | Smooths daily crime volume to show trend direction |
 
-The measures `total_crimes`, `total_arrests`, and `domestic_crimes` are additive and can be summed across dates, crime types, and categories. `seven_day_rolling_avg` is a derived trend metric and should not be summed across rows.
+Additive measures can be safely summed across rows, dates, or categories. For example, `total_crimes`, `total_arrests`, and `domestic_crimes` can be summed to produce weekly, monthly, or category-level totals. `seven_day_rolling_avg` is not additive because it is already an average and should be used as a trend metric rather than summed.
 
 ## Current Pipeline
 
