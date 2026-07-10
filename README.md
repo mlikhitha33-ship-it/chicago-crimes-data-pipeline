@@ -218,6 +218,19 @@ flowchart TB
 
 ```
 
+### Aggregatable Measures in `agg_daily_crime_summary`
+
+The `agg_daily_crime_summary` table is designed for dashboard-ready trend reporting. Its intended grain is one row per `crime_date`, `primary_type`, and `crime_category`.
+
+| Measure | Source field / logic | Calculation | Aggregation type | Business meaning |
+|---|---|---|---|---|
+| `total_crimes` | One row in `fact_crime_incident` represents one reported crime incident | `COUNT(*)` | Additive | Total number of reported crime incidents |
+| `total_arrests` | `arrest` flag from `fact_crime_incident` | `SUM(CASE WHEN arrest = true THEN 1 ELSE 0 END)` | Additive | Number of incidents where an arrest was made |
+| `domestic_crimes` | `domestic` flag from `fact_crime_incident` | `SUM(CASE WHEN domestic = true THEN 1 ELSE 0 END)` | Additive | Number of incidents marked as domestic-related |
+| `seven_day_rolling_avg` | Daily `total_crimes` | Average of `total_crimes` over the current day and previous 6 days, partitioned by crime type/category | Derived time-series metric | Smooths daily crime volume to show trend direction |
+
+The measures `total_crimes`, `total_arrests`, and `domestic_crimes` are additive and can be summed across dates, crime types, and categories. `seven_day_rolling_avg` is a derived trend metric and should not be summed across rows.
+
 ## Current Pipeline
 
 ```text
