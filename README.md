@@ -602,8 +602,18 @@ The transformation job:
 Output paths:
 
 ```text
-data/clean/chicago_crimes_detail
-data/clean/chicago_crimes_daily_summary
+Model-aligned transformation completed                                          
+Surrogate keys generated using deterministic SHA-256 hash keys
+Global row_number window operations removed
+dim_crime_type rows: 340                                                        
+dim_date rows: 366                                                              
+dim_time_of_day rows: 1440                                                      
+dim_police_area rows: 282                                                       
+dim_civic_area rows: 248                                                        
+dim_location_type rows: 130                                                     
+dim_location_point rows: 125497                                                 
+fact_crime_incident rows: 259170                                                
+agg_daily_crime_summary rows: 35650
 ```
 
 ## Airflow DAG
