@@ -229,8 +229,8 @@ The `agg_daily_crime_summary` table is designed for dashboard-ready trend report
 | `domestic_crimes` | `domestic` flag from `fact_crime_incident` | `SUM(CASE WHEN domestic = true THEN 1 ELSE 0 END)` | Additive | Number of incidents marked as domestic-related |
 | `seven_day_rolling_avg` | Daily `total_crimes` | Average of `total_crimes` over the current day and previous 6 days, partitioned by crime type/category | Derived time-series metric | Smooths daily crime volume to show trend direction |
 
-Additive measures can be safely summed across rows, dates, or categories. For example, `total_crimes`, `total_arrests`, and `domestic_crimes` can be summed to produce weekly, monthly, or category-level totals. `seven_day_rolling_avg` is not additive because it is already an average and should be used as a trend metric rather than summed.
-Additive measures answer "how many" questions & Derived metrics like rates and rolling averages answer "how is it performing or trending" questions.
+Additive measures answer "how many" questions & Derived metrics like rates and rolling averages answer "how is it performing or trending" questions. Additive measures can be safely summed across rows, dates, or categories. For example, `total_crimes`, `total_arrests`, and `domestic_crimes` can be summed to produce weekly, monthly, or category-level totals. `seven_day_rolling_avg` is not additive because it is already an average and should be used as a trend metric rather than summed.
+
 
 ### Business Questions Supported by Additive Measures
 
@@ -249,7 +249,7 @@ The additive measures in `agg_daily_crime_summary` support operational and trend
 | `domestic_crimes` | Which crime types or categories have the highest domestic incident volume? | By `primary_type`, `crime_category` |
 | `domestic_crimes` | Are domestic-related incidents increasing or decreasing over time? | By `crime_date`, month, year |
 
-These measures are additive, meaning they can be summed to answer higher-level questions such as weekly totals, monthly totals, yearly totals, or totals by crime category.
+These measures can be summed to answer higher-level questions such as weekly totals, monthly totals, yearly totals, or totals by crime category.
 
 ## Current Pipeline
 
