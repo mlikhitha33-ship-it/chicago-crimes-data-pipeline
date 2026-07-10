@@ -230,6 +230,26 @@ The `agg_daily_crime_summary` table is designed for dashboard-ready trend report
 | `seven_day_rolling_avg` | Daily `total_crimes` | Average of `total_crimes` over the current day and previous 6 days, partitioned by crime type/category | Derived time-series metric | Smooths daily crime volume to show trend direction |
 
 Additive measures can be safely summed across rows, dates, or categories. For example, `total_crimes`, `total_arrests`, and `domestic_crimes` can be summed to produce weekly, monthly, or category-level totals. `seven_day_rolling_avg` is not additive because it is already an average and should be used as a trend metric rather than summed.
+Additive measures answer "how many" questions & Derived metrics like rates and rolling averages answer "how is it performing or trending" questions.
+
+### Business Questions Supported by Additive Measures
+
+The additive measures in `agg_daily_crime_summary` support operational and trend-based reporting because they can be summed across dates, crime types, categories, and reporting periods.
+
+| Additive measure | Business questions it can answer | Example grouping/filtering |
+|---|---|---|
+| `total_crimes` | How many crimes occurred during a day, week, month, or year? | By `crime_date`, month, year |
+| `total_crimes` | Which crime types have the highest reported volume? | By `primary_type`, `crime_category` |
+| `total_crimes` | Are reported crimes increasing or decreasing over time? | By `crime_date`, `primary_type` |
+| `total_crimes` | Which crime categories contribute most to overall crime volume? | By `crime_category` |
+| `total_arrests` | How many reported incidents resulted in an arrest? | By `crime_date`, `primary_type`, `crime_category` |
+| `total_arrests` | Which crime types have the highest number of arrests? | By `primary_type`, `crime_category` |
+| `total_arrests` | How do arrest counts trend over time? | By `crime_date`, month, year |
+| `domestic_crimes` | How many reported incidents were domestic-related? | By `crime_date`, `primary_type`, `crime_category` |
+| `domestic_crimes` | Which crime types or categories have the highest domestic incident volume? | By `primary_type`, `crime_category` |
+| `domestic_crimes` | Are domestic-related incidents increasing or decreasing over time? | By `crime_date`, month, year |
+
+These measures are additive, meaning they can be summed to answer higher-level questions such as weekly totals, monthly totals, yearly totals, or totals by crime category.
 
 ## Current Pipeline
 
